@@ -208,12 +208,21 @@ def run_internal(category):
     print(f"[INTERNAL] Running {category} tests with coverage...")
     
     result = subprocess.run(cmd, capture_output=True, text=True)
+    
+    print("--- [PYTEST STDOUT] ---")
     print(result.stdout)
+    print("--- [PYTEST STDERR] ---")
+    print(result.stderr)
     
     generate_pdf(result.stdout, category)
     
+    # We don't exit here anymore so the CI can finish the upload artifact step
+    # but we should still return failure state if we want the job to fail.
+    # Actually, sys.exit(1) is fine as long as we printed everything.
     if result.returncode != 0:
-        sys.exit(1)
+        print(f"ERROR: Pytest failed with exit code {result.returncode}")
+        # sys.exit(1) # Keep it if you want the red X in GitHub
+        sys.exit(result.returncode)
 
 def run_host(category):
     """Triggers docker-compose from host"""
