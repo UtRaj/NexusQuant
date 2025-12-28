@@ -1,7 +1,13 @@
 # tests/conftest.py
 
 import pytest
+import os
+import sys
 from unittest.mock import MagicMock
+
+# Ensure project root is in path for CI/subprocess environments
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from agents.analyst import AnalystAgent
 
 @pytest.fixture(autouse=True)
