@@ -204,10 +204,10 @@ def run_internal(category):
         "all": "tests/"
     }
     
-    cmd = ["pytest", paths.get(category, "tests/"), "-v", "--cov=simulation", "--cov=agents", "--cov=utils", "--cov-report=term-missing"]
-    print(f"[INTERNAL] Running {category} tests with coverage...")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = f".{os.pathsep}{env.get('PYTHONPATH', '')}"
     
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, env=env)
     
     print("--- [PYTEST STDOUT] ---")
     print(result.stdout)
