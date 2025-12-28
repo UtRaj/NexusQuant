@@ -1,3 +1,5 @@
+# main.py
+
 from simulation.engine import SimulationEngine
 
 def main():

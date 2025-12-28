@@ -1,3 +1,5 @@
+# database/models.py
+
 import uuid
 from datetime import datetime, timezone
 from typing import Optional, Dict, Any
