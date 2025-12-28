@@ -1,47 +1,64 @@
 # NexusQuant - Agentic Portfolio Intelligence Platform
 
-NexusQuant is a high-fidelity, production-hardened simulation platform where AI agents collaborate to manage a multi-asset trading portfolio. It features a sophisticated **Advisory-Arbitration-Allocation** architecture, combining Large Language Models (LLMs) with deterministic quantitative finance.
+NexusQuant is a production-grade, high-fidelity Simulation platform where specialized AI agents collaborate to manage multi-asset trading portfolios. It combines Large Language Models (LLMs) with deterministic quantitative finance to bridge the gap between "Alpha" and "Risk."
 
 ---
 
-## 🚀 Core Features
+## 🏗️ System Architecture
 
-- **Multi-Agent Synergy**: Four specialized layers (Quant, Analyst, Arbiter, Allocator) working in tandem.
-- **Risk-Parity Allocation**: Mathematical inverse-volatility scaling ensures balanced risk exposure.
-- **High-Fidelity Auditing**: Automated PDF Integrity Reports with objective-based validation.
-- **Hybrid Intelligence**: Combines real-time technical analysis (RSI, Mean Reversion) with macro LLM sentiment.
-- **Observability**: Real-time Streamlit dashboard with a premium high-contrast interface.
-- **Resilience Tested**: Passes 25+ stress tests including volatility shocks, LLM cooldowns, and NaN fault tolerance.
+NexusQuant operates on a **Synchronized Portfolio Loop (SPL)**, decoupling strategic decision-making from mathematical execution.
 
----
+```mermaid
+graph TD
+    A[Market Ingestion] --> B{Strategy Layer}
+    B --> C[Quant Agent: Technical Analysis]
+    B --> D[Analyst Agent: Macro LLM Sentiment]
+    C --> E[Decision Arbiter]
+    D --> E
+    E --> F[Capital Allocator: Risk Parity]
+    F --> G[Execution Engine: Rebalancing]
+    G --> H[(PostgreSQL: State Persistence)]
+    G --> I[Streamlit Dashboard]
+```
 
-## 🏗️ Architecture & Technical Pillars
-
-NexusQuant operates on a **Synchronized Portfolio Loop**:
-1. **Pulse**: Synchronized data ingestion across Crypto (24/7) and Equities (Market-Hours).
-2. **Advise**: Strategic insights generated via **Groq LLM** and Technical Indicators.
-3. **Arbitrate**: Mathematical aggregation of advisor signals with EMA smoothing.
-4. **Allocate**: Dynamic capital distribution based on rolling asset volatility.
-5. **Execute**: Hardened execution engine with rebalancing thresholds and full persistence.
-
-### 🧩 System Modules
-- **Advisory Layer**: Specialized agents providing hybrid signals.
-- **Decision Logic**: Advanced arbitration with EMA smoothing.
-- **Execution Engine**: Hardened multi-tick simulation loop.
-- **Dashboard**: Real-time premium monitoring interface.
+### 🧩 Core Components
+- **Advisory Layer**: Specialized agents (Groq-powered Analyst and RSI-based Quant) providing hybrid signals.
+- **Decision Logic**: Advanced arbitration with EMA smoothing and signal conflict resolution.
+- **Execution Engine**: Hardened multi-tick simulation loop with rebalancing thresholds.
+- **Observability**: Real-time premium monitoring interface and automated PDF auditing.
 
 ---
 
-## 🛠️ Getting Started
-[Detailed Setup Guide](DOCUMENTATION.md#setup)
+## 🚀 LLMops & MLops Excellence
 
-- **Groq API Key Required**
-- **Docker Recommended**
+NexusQuant is designed with production reliability at its core:
 
+- **Centralized LLM Mocking**: Cost-effective and deterministic testing suite using high-fidelity mock responses.
+- **CI/CD Pipeline**: GitHub Actions automate integrity audits and push production-ready Docker images to GHCR.
+- **Resilient Models**: Cross-database compatibility (PostgreSQL/SQLite) and robust JSON persistence.
+- **High-Fidelity Auditing**: Automated PDF Integrity Reports generate an "Audit Ledger" for every simulation run.
+- **NaN Fault Tolerance**: Engine-level protection against corrupted or missing market data feeds.
+
+---
+
+## 🛠️ Quick Start
+
+### 1. Requirements
+- Python 3.10+
+- Docker & Docker Compose (Optional)
+- Groq API Key (For live simulations)
+
+### 2. Environment Setup
+Create a `.env` file in the root directory:
+```env
+GROQ_API_KEY=your_key_here
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/nexusquant
+```
+
+### 3. Run with Docker (Recommended)
 ```bash
 docker-compose up --build
 ```
-
 - **Dashboard**: `http://localhost:8501`
 - **Database**: PostgreSQL on `localhost:5432`
 
@@ -49,27 +66,36 @@ docker-compose up --build
 
 ## 🧪 Simulation Integrity Audit
 
-NexusQuant features a professional-grade test runner that generates an **Audit Ledger** PDF:
-
-```powershell
-# Run the full audit suite
-python tests/test_runner.py host all
-```
+NexusQuant features a professional-grade test runner.
 
 ### Test Runner Commands
 | Category | Command | Result |
 | :--- | :--- | :--- |
 | **Complete Audit** | `python tests/test_runner.py host all` | Full Pass + PDF Report |
-| **Unit Only** | `python tests/test_runner.py host unit` | Rapid logic validation |
+| **Unit Tests** | `python tests/test_runner.py host unit` | Rapid logic validation |
 | **Integration** | `python tests/test_runner.py host integration` | DB & Concurrency check |
 
-*Results are saved in the `REPORTS/` directory.*
+### LLM Mocking in Tests
+By default, all tests use **Mocked LLM Responses** to save costs. To run a test against the live Groq API, use the `live_api` marker:
+```bash
+pytest -m live_api tests/
+```
 
 ---
 
-## 🛡️ Stability & Reliability
-- **93% Code Coverage**: Core simulation and risk logic are fully exercised by automated suites.
-- **Pydantic V2 Enforcement**: Strict configuration schema validation.
-- **SQLModel Persistence**: Type-safe relational database management using PostgreSQL.
-- **NaN Resilience**: The engine continues operating even if data feeds return corrupted values.
+## 🛡️ Stability & Observability
+- **93% Code Coverage**: Core simulation and risk logic are fully exercised.
+- **Pydantic V2 Integrity**: Strict configuration and schema validation.
+- **SQLModel Persistence**: Type-safe relational management.
+- **Continuous Deployment**: Automated build and push to GitHub Container Registry (GHCR).
 
+---
+
+## 📈 Roadmap
+- [ ] **Prompt Registry**: Decoupling LLM instructions for versioned prompt testing.
+- [ ] **Infrastructure as Code**: Terraform templates for AWS/GCP deployment.
+- [ ] **Multi-Model Support**: Integration with Anthropic and OpenAI for model-redundant arbitration.
+
+---
+
+*Generated by Antigravity - NexusQuant 3.0.0*
