@@ -1,0 +1,28 @@
+services:
+  test_db:
+    image: postgres:16
+    container_name: nexusquant_test_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nexusquant_test
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  test_runner:
+    build: .
+    container_name: nexusquant_test_runner
+    depends_on:
+      test_db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - ./REPORTS:/app/REPORTS
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@test_db:5432/nexusquant_test
+      - GROQ_API_KEY=mock_key
+      - PYTHONPATH=/app
+    command: python tests/test_runner.py internal

@@ -1,0 +1,17 @@
+psycopg2-binary
+sqlmodel
+fastapi
+uvicorn
+groq
+streamlit
+pytest
+pandas
+ta
+httpx
+pydantic-settings
+yfinance
+plotly
+numpy
+python-dotenv
+fpdf2
+pytest-cov
