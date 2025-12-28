@@ -1,3 +1,4 @@
+# tests/test_runner.py
 
 # === NEXUSQUANT TEST COMMANDS ===
 # Full Audit:        python tests/test_runner.py host all
@@ -5,6 +6,7 @@
 # Integration:       python tests/test_runner.py host integration
 # Raw Pytest:        docker-compose -f docker-compose.test.yml run --rm test_runner pytest tests/ -v
 # ====================================
+
 
 import re
 import ast
@@ -206,6 +208,9 @@ def run_internal(category):
     
     env = os.environ.copy()
     env["PYTHONPATH"] = f".{os.pathsep}{env.get('PYTHONPATH', '')}"
+    
+    cmd = ["pytest", paths.get(category, "tests/"), "-v", "--cov=simulation", "--cov=agents", "--cov=utils", "--cov-report=term-missing"]
+    print(f"[INTERNAL] Running {category} tests with coverage...")
     
     result = subprocess.run(cmd, capture_output=True, text=True, env=env)
     
